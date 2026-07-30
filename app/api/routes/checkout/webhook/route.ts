@@ -1,0 +1,44 @@
+import { NextResponse } from "next/server";
+import crypto from 'crypto'
+import { ChargilyWebhookEvent } from "@/lib/chargily";
+import { prisma } from "@/lib/prisma";
+
+export async function POST(request:Request){
+    try{
+        const rawBody = await request.text();
+        const signature = request.headers.get('signature');
+        const secret = process.env.CHARGILY_SECRET_KEY;
+
+        const cumputedSignature = crypto.createHmac('sha256',secret??'').update(rawBody).digest('hex');
+        if (cumputedSignature !== signature){
+            return NextResponse.json({error:'Invalid signature'},{status:401})
+        }
+
+        const event:ChargilyWebhookEvent = JSON.parse(rawBody);
+        const orderId = event.data.metadata;
+        if (!orderId){
+            return NextResponse.json({error:'orderId is not found in the metadata!'},{status:400})
+        }
+        switch (event.type) {
+            case 'checkout.paid' : {
+                await prisma.order.update({
+                    where:{
+                        id:orderId
+                    },
+                    data:{
+                        status:'confirmed'
+                    }
+                })
+                break;
+            }
+            case 'checkout.failed':{
+                break;
+            }
+        }
+        return NextResponse.json({received:true},{status:200})
+    }
+    catch(error){
+        console.log(error);
+        return NextResponse.json({error:'Internal server error'},{status:500})
+    }
+}

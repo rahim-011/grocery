@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrderStatus {
+  placed
+  confirmed
+  assigned
+  packed
+  out_for_delievery
+  delivered
+  cancelled
+}
+
+model Products {
+  id          String      @id
+  title       String
+  category    String
+  price       Float
+  oldPrice    Float?
+  imageSrc    String
+  rating      Float       @default(4.5)
+  stock       Int         @default(0)
+  isPopular   Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  unit        String
+  description String?
+  organic     Boolean     @default(false)
+  amount      String?
+  orderItems  OrderItem[]
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  addresses     Address[]
+  orders        Order[]
+
+  @@map("user")
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  orderCode   String      @unique @default(dbgenerated("upper(substr(md5(random()::text), 1, 8))"))
+  status      OrderStatus @default(placed)
+  totalAmount Decimal
+  totalItems  Decimal
+  currency    String      @default("DZD")
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  item        OrderItem[]
+  addressId   String
+  address     Address     @relation(fields: [addressId], references: [id])
+  updatedAt   DateTime    @default(now())
+  createdAt   DateTime    @default(now())
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  quantity    Int     @default(1)
+  priceAtTime Decimal
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Products @relation(fields: [productId], references: [id])
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  street    String
+  city      String
+  label     String
+  state     String?
+  zipCode   String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders    Order[]
+
+  @@index([userId])
+  @@map("address")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}

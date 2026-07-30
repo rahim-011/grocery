@@ -1,26 +1,54 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+
+
+@theme {
+  --color-veg-green: #1b3022;
+  --color-text-darker: #6b6b6b;
+  --color-selected: #cc451b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+::-webkit-scrollbar {
+  width: 7px; 
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+::-webkit-scrollbar-track {
+  background: #FAF8F5; 
+}
+
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(132, 43%, 25%); 
+  border-radius: 100px; 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(132, 43%, 30%);
+}
+
+@layer base {
+  body {
+    @apply bg-white;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes scroll  {
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(-33.3333%)
+  }
+}
+
+.animate-scroll{
+  animation: scroll 8s linear infinite;
+}
+.animate-scroll:hover{
+  animation-play-state: paused;
 }
