@@ -9,13 +9,34 @@ import { getAddressById } from "@/lib/addresses";
 
 export default async function OrderReview({params}:{params:Promise<{id:string}>}){
     const id = (await params).id;
-    const order:any = await getOrderById(id);
+    const order = (await getOrderById(id)) as {
+        id?: string;
+        orderCode?: string;
+        createdAt?: string;
+        status?: string | null;
+        addressId?: string;
+        totalItems?: number;
+        totalAmount?: number;
+        item?: Array<{
+            id?: string;
+            quantity: number;
+            priceAtTime: string | number | null;
+            product?: {
+                title?: string;
+                imageSrc?: string;
+                amount?: string | null;
+            };
+        }>;
+    } | null;
     const taxRate= 0.08;
-    const subTotal = order?.item?.reduce((sum, p) => sum + (p.quantity * Number(p.priceAtTime)), 0) || 0;
+    const subTotal = (order?.item ?? []).reduce((sum: number, p) => sum + (p.quantity * Number(p.priceAtTime ?? 0)), 0);
     const tax = taxRate * subTotal;
     const address = await getAddressById(order?.addressId);
-    const orderAddress = encodeURIComponent(`${address?.street}, ${address?.city}`);
+    const orderAddress = encodeURIComponent(`${address?.street ?? ''}, ${address?.city ?? ''}`);
     const mapSrc = `https://maps.google.com/maps?q=${orderAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    const placedOn = order?.createdAt ? order.createdAt.split('T')[0] : 'Unknown date';
+    const subtotalItems = order?.totalItems ?? 0;
+    const totalAmount = order?.totalAmount ?? 0;
 
     return(
         <div className="flex flex-col gap-5 p-3 md:p-6 lg:p-10">
@@ -23,7 +44,7 @@ export default async function OrderReview({params}:{params:Promise<{id:string}>}
             <div className="flex justify-between mb-3">
                 <div className="flex flex-col">
                     <h1 className="text-veg-green text-[1.4rem] font-semibold">Order {order?.orderCode}</h1>
-                    <span className="text-black/65 text-[0.8rem]">Placed on {order?.createdAt.split('T')[0]}</span>
+                    <span className="text-black/65 text-[0.8rem]">Placed on {placedOn}</span>
                 </div>
                 <div className="self-center text-orange-500 px-2 py-1 rounded-[10px] bg-orange-600/20 text-[0.8rem]">{order?.status}</div>
             </div>
@@ -88,8 +109,8 @@ export default async function OrderReview({params}:{params:Promise<{id:string}>}
                         </ul>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <h4 className="text-veg-green text-[0.8rem] font-semibold">Items ({order.item.length})</h4>
-                        {order?.item?.map((item, index) => (
+                        <h4 className="text-veg-green text-[0.8rem] font-semibold">Items ({order?.item?.length ?? 0})</h4>
+                        {(order?.item ?? []).map((item, index) => (
                         <div key={item.id || index} className="flex justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-auto h-auto">
@@ -116,7 +137,7 @@ export default async function OrderReview({params}:{params:Promise<{id:string}>}
                     </div>
                     <div className="flex flex-col gap-4 sticky top-24">
                         <div className="flex justify-between items-center">
-                            <span className="text-[0.8rem] text-black/60">Subtotal ({order.totalItems.toString()} items)</span>
+                            <span className="text-[0.8rem] text-black/60">Subtotal ({subtotalItems} items)</span>
                             <span className="text-veg-green text-[0.8rem]">${subTotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -129,7 +150,7 @@ export default async function OrderReview({params}:{params:Promise<{id:string}>}
                         </div>
                         <div className="flex justify-between items-center border-t border-t-veg-green/20 pt-5">
                             <span className="text-veg-green font-semibold text-[0.85rem]">Total</span>
-                            <span className="text-veg-green font-semibold text-[0.85rem]">${order.totalAmount.toFixed(2)}</span>
+                            <span className="text-veg-green font-semibold text-[0.85rem]">${totalAmount.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>

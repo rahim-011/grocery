@@ -9,7 +9,17 @@ import { toast } from "sonner";
 
 
 
-export default function Partner({partners}:{partners:any}){
+type PartnerRecord = {
+    id: string;
+    phone: string;
+    vehicleType: string;
+    user: {
+        name: string;
+        email: string;
+    };
+};
+
+export default function Partner({partners}:{partners?: PartnerRecord[]}){
     const [loading,setLoading] = useState<boolean>(false);
     const [currentStatus,setCurrentStatus] = useState<boolean | null | undefined>(null);
     
@@ -47,7 +57,7 @@ export default function Partner({partners}:{partners:any}){
             const activeClass = cn(currentStatus ? 'bg-green-500/30 text-green-500' : 'bg-red-500/40 text-red-500')
             const btnClass = cn(currentStatus ? 'bg-red-500' : 'bg-green-700')
             return(
-                <div className="flex flex-col gap-2.5 border border-black/20 rounded-2xl p-4 max-w-[300px]" key={index}>
+                <div className="flex flex-col gap-2.5 border border-black/20 rounded-2xl p-4 max-w-[300px]" key={partner.id || index}>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div></div>

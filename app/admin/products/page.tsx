@@ -4,7 +4,7 @@ import AdminProduct from "@/components/AdminProduct"
 import { getProducts } from "@/lib/products"
 
 export default async function AdminProducts():Promise<React.ReactNode>{
-    const products = await getProducts(null);
+    const products = await getProducts(null, null);
     return(
         <div className="border border-black/20 rounded-2xl">
             <div className="p-5 border-b border-b-black/20 flex justify-between items-center">

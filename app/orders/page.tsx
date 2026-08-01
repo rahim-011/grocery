@@ -14,7 +14,7 @@ export default async function Orders(){
         headers: await headers()
     })
     const userId = session?.user.id;
-    const userOrders = await getUserOrders(userId ?? "");
+    const userOrders = (await getUserOrders(userId ?? "")) ?? [];
 
     return(
         <div className="p-3 md:p-6 lg:p-10 flex flex-col gap-5">

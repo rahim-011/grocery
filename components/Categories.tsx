@@ -1,8 +1,7 @@
-import { Categorie } from "@/.next/types/definitons"
 import Image from "next/image"
 
 export default function Categories(){
-    const categories : Categorie[] = [{
+    const categories: Array<{ imageSrc: string; title: string }> = [{
         imageSrc:'/fruits_vegetables.png',
         title: 'Fruits &  Vegetables',
     },

@@ -32,7 +32,7 @@ export default async function Product({params}:{params:Promise<{id:string}>}){
                 <Link href={`/products?categorie=${mainProduct?.category}`} className="flex items-center gap-1.5 text-orange-500 hover:text-orange-600 transition-all text-[0.8rem] cursor-pointer">View All <ArrowRight size={15}/></Link>
             </div>
             <div >
-                <ShowProducts limit={4} category={mainProduct && mainProduct?.category} mainProductId={mainProduct?.id}/>
+                <ShowProducts limit={4} category={mainProduct?.category ?? null} mainProductId={mainProduct?.id ?? null}/>
             </div>
         </div>
     )

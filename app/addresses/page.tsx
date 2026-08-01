@@ -4,6 +4,7 @@ import EmptyAddresses from "@/components/EmptyAddresses";
 import getUserAddresses from "@/lib/addresses";
 import { auth } from "@/lib/auth";
 import { useSession } from "@/lib/auth-client";
+import { Address } from "@prisma/client";
 import { Check, Edit, MapPin, Plus, Trash2 } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -29,7 +30,7 @@ export default async function Addresses({searchParams}:{searchParams:Promise<{op
                 </div>
                 {
                 addresses && addresses?.length > 0 ? (<div className="flex flex-col gap-3 md:w-[70%]">
-                    {addresses?.map((address,index)=>(
+                    {addresses?.map((address:Address,index)=>(
                         <div className="flex justify-between border border-black/20 rounded-2xl p-8" key={index}>
                             <div className="flex items-center gap-5">
                                 <div className="text-veg-green mb-3"><MapPin size={24}/></div>

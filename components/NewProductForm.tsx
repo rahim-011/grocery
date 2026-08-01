@@ -24,7 +24,7 @@ import { useRouter } from "next/navigation"
 import { Products } from "@prisma/client"
 
 
-export default function NewProductForm({operation,product}:{operation:string,product:Products|null}){
+export default function NewProductForm({operation,product = null}:{operation:string,product?:Products|null}){
     const router = useRouter();
     const productId = product?.id;
     console.log(productId)

@@ -13,21 +13,16 @@ import { cn } from "@/lib/utils";
 import { Order } from "@prisma/client";
 import { useState } from "react";
 import { toast } from "sonner";
+import { AdminOrderRecord } from "@/lib/types";
 
-interface UserProps {
-    email: string,
-    name: string
-}
-interface AdminOrderProps extends UserProps {
-    orders: Order[]  | undefined
+interface AdminOrderProps {
+    orders: AdminOrderRecord[] | undefined;
 }
 
 type OrderStatus = 'Placed' | 'Confirmed' | 'Assigned' | 'Packed' | 'Out for Delivery' | 'Delivered' | 'Cancelled';
 
-
-
 export default function AdminOrder({orders}:AdminOrderProps){
-    const status = ['Placed','Confirmed','Assigned','Packed','Out for Delivery','Delivered','Cancelled'];
+    const status: OrderStatus[] = ['Placed','Confirmed','Assigned','Packed','Out for Delivery','Delivered','Cancelled'];
     const statusStyles: Record<OrderStatus, string> = {
     'Placed': 'bg-blue-100 text-blue-600',
     'Confirmed': 'bg-cyan-100 text-cyan-600',
@@ -38,7 +33,7 @@ export default function AdminOrder({orders}:AdminOrderProps){
     'Cancelled': 'bg-red-100 text-red-500',
     };
 
-    const [currentStatus,setCurrentStatus] = useState<string>('placed');
+    const [currentStatus,setCurrentStatus] = useState<OrderStatus>('Placed');
     const [loading,setLoading] = useState<boolean>(false);
     const [updatedId,setUpdatedId] = useState<string>('');
     const handleUpComingStatus = async (status:OrderStatus,orderId:string) =>{
@@ -74,6 +69,7 @@ export default function AdminOrder({orders}:AdminOrderProps){
         <>
         {orders?.map((order,index)=>{
             const date = order.createdAt.toString().split('T')[0];
+            const currentOrderStatus = (order.status ?? 'Placed') as OrderStatus;
             const time = new Date(order.createdAt).toLocaleTimeString('en-US', {
             hour: 'numeric',
             minute: '2-digit',
@@ -95,18 +91,18 @@ export default function AdminOrder({orders}:AdminOrderProps){
                         <span className="flex items-center gap-1 bg-violet-200 p-2 rounded-[10px] self-start text-[0.65rem] text-violet-950"><Truck size={14}/> Assign</span>
                     </div>
                     <div className="flex flex-col">
-                        <Select value={order.id === updatedId ? currentStatus : order.status} onValueChange={(value) => handleUpComingStatus(value,order.id)}>
-                            <SelectTrigger className="w-[145px] bg-blue-100 border-none cursor-pointer flex items-center justify-center">
+                        <Select value={order.id === updatedId ? currentStatus : currentOrderStatus} onValueChange={(value) => handleUpComingStatus(value as OrderStatus, order.id)}>
+                            <SelectTrigger className="w-36 bg-blue-100 border-none cursor-pointer flex items-center justify-center">
                                 {!loading && order.id === updatedId  ? (<SelectValue placeholder="Select status"  className='text-[0.8rem] text-blue-600'/> ):( order.id == updatedId ? 
                                 <LoaderCircle className="animate-spin"/> : <SelectValue placeholder="Select status"  className='text-[0.8rem] text-blue-600'/>)}
                             </SelectTrigger>
                             <SelectContent
                                 sideOffset={4}
-                                className="bg-blue-100 px-1 py-2 !border !border-blue-300 rounded-lg  !ring-0"
+                                className="bg-blue-100 px-1 py-2 border! border-blue-300! rounded-lg ring-0!"
                             >
                                 {status.map((s,index)=>{
                                      const selectedClass = cn(
-                                        s === order.status ? statusStyles[s] : 'bg-blue-100 text-blue-500'
+                                        s === currentOrderStatus ? statusStyles[s] : 'bg-blue-100 text-blue-500'
                                     );
                                     return(
                                         <SelectItem value={s} key={index}  className={`text-[0.8rem] hover:bg-blue-200 ${selectedClass}`}>{s}</SelectItem>

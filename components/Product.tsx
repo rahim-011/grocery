@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ShowProduct({ mainProduct }: { mainProduct: Products | null }) {
-    const discount = calculateDiscount(mainProduct?.oldPrice, mainProduct?.price);
-    const isInStock = mainProduct?.stock > 0 ;
+    const discount = calculateDiscount(mainProduct?.oldPrice ?? null, mainProduct?.price ?? 0);
+    const isInStock = (mainProduct?.stock ?? 0) > 0;
     const stockClass = cn( isInStock ? 'text-green-500' : 'text-red-500');
-    const stockString = isInStock ? ` In Stock (${mainProduct?.stock} available)` : "Out of Stock";
+    const stockString = isInStock ? ` In Stock (${mainProduct?.stock ?? 0} available)` : "Out of Stock";
 
     const [isExist, setIsExist] = useState<boolean>(false);
     const { openCart, isInCart, addToCart, cartProducts, manageCart } = useCartStore();
@@ -34,15 +34,15 @@ export default function ShowProduct({ mainProduct }: { mainProduct: Products | n
     const addToCartClass = (isExist && isInStock ) ? 'bg-white border border-veg-green text-veg-green' : isInStock ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'opacity-60 disabled';
 
     const handlePlus = () =>{
-        if (isExist){
-            manageCart('plus',mainProduct?.id)
+        if (isExist && mainProduct?.id) {
+            manageCart('plus', mainProduct.id)
         }else{
             setQ(prev => prev + 1)
         }
     }
     const handleMinus =  () =>{
-        if (isExist){
-            manageCart('minus',mainProduct?.id)
+        if (isExist && mainProduct?.id) {
+            manageCart('minus', mainProduct.id)
         }else{
             setQ(prev => prev == 1 ? 1 : prev - 1)
         }

@@ -26,7 +26,7 @@ export default function UserProfile({name,email,onShowProfile}:{name:string,emai
 
 
     return(
-        <div className="flex flex-col gap-2 bg-white rounded-2xl min-w-[200px]">
+        <div className="flex flex-col gap-2 bg-white rounded-2xl min-w-50">
             <div className="flex flex-col gap-1 p-4">
                 <span className="text-black text-[0.75rem]">{name}</span>
                 <span className="text-[0.6rem] text-black/60">{email}</span>

@@ -5,7 +5,7 @@ import { prisma } from "./prisma";
 
 
 
-export  async function getProducts(limit:number|null,category:string|null) : Promise<Products[]>{
+export  async function getProducts(limit:number|null = null, category:string|null = null) : Promise<Products[]>{
     try{
         const products = await prisma.products.findMany({
             ...(limit !== null ? {take:limit} : {} ),

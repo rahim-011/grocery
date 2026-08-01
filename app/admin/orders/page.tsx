@@ -1,6 +1,6 @@
 import Order from "@/components/AdminOrder";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { getOrders, getStatusOrders } from "@/lib/orders";
+import { getOrders} from "@/lib/orders";
 import { Suspense } from "react";
 
 

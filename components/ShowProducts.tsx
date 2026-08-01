@@ -7,7 +7,7 @@ import ClientProducts from "./ClientProducts";
 
 
 
-export default async function ShowProducts({limit,category,mainProductId}:{limit:number|null,category:string|null,mainProductId:string}):Promise<JSX.Element>{
+export default async function ShowProducts({limit,category,mainProductId}:{limit:number|null,category:string|null,mainProductId?:string | null}):Promise<JSX.Element>{
     const products = await getProducts(limit,category);
     const suggestProduct  = category !== null ? products.filter(product => product.id !== mainProductId ) : [];
     const gridClass = cn('grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3', limit && limit > 12 ? 'xl:grid-cols-4' : 'lg:grid-cols-4 xl:grid-cols-5');

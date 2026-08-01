@@ -12,7 +12,7 @@ export default function AddProduct(){
                 <h2 className="font-semibold">New Product</h2>
             </div>
             <div className="p-5">
-                 <NewProductForm operation={"add"}/>
+                 <NewProductForm operation={"add"} product={null}/>
             </div>
         </div>
     )
