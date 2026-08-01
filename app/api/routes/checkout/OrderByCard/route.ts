@@ -53,12 +53,13 @@ export async function POST(request:Request){
             },
             include:{item:true}
         })
+        const appBaseUrl = (process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000').replace(/\/+$/, '')
         const checkout = await client.createCheckout({
             amount:totalAmount,
             currency: 'dzd',
-            webhook_endpoint:'http://localhost:3000/api/routes/checkout/webhook',
-            success_url: 'http://localhost:3000/api/checkout/success',
-            failure_url: 'http://localhost:3000/api/checkout/failed',
+            webhook_endpoint: new URL('/api/routes/checkout/webhook', appBaseUrl).toString(),
+            success_url: new URL('/checkout/success', appBaseUrl).toString(),
+            failure_url: new URL('/checkout/failed', appBaseUrl).toString(),
             metadata:{orderId:newOrder.id}
         })
 

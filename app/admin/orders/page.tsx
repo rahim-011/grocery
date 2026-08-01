@@ -1,8 +1,13 @@
 import Order from "@/components/AdminOrder";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { getOrders, getStatusOrders } from "@/lib/orders";
+import { Suspense } from "react";
 
 
 
-export default function AdminOrders(){
+export default async function AdminOrders(){
+    
+    const orders = await getOrders();
     return(
         <div className="border border-black/20 rounded-2xl flex flex-col ">
             <h1 className="font-semibold text-[1.3rem] p-5">Orders</h1>
@@ -14,7 +19,9 @@ export default function AdminOrders(){
                     <div>DELIVERY PARTNER</div>
                     <div>STATUS</div>
                 </div>
-                <Order/>
+                <Suspense fallback={<LoadingSpinner/>}>
+                <Order orders={orders}/>
+                </Suspense>
             </div> 
         </div>        
     )

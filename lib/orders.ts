@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client"
 import { prisma } from "./prisma"
 
 
@@ -84,3 +85,40 @@ export async function getOrderById(orderId:string){
         console.log(error)
     }
 }
+
+
+
+
+export async function getOrders(){
+    try{
+        const orders  = await prisma.order.findMany({
+            include:{
+                user:{
+                    select:{
+                        email:true,
+                        name:true,
+                    }
+                }
+            },
+            orderBy:{
+                createdAt:'desc'
+            }
+        });
+        if (!orders){
+            return []
+        }
+        const formattedOrders = orders.map(order => ({
+            ...order,
+            createdAt: order.createdAt ? new Date(order.createdAt).toISOString() : '',
+            updatedAt: order.updatedAt ? new Date(order.updatedAt).toISOString() : '',
+            status : order.status ? String(order.status) : '',
+            totalAmount: order.totalAmount ? Number(order.totalAmount)  : 0,
+            totalItems: order.totalItems ? Number(order.totalItems) : 0
+        }))
+        return formattedOrders
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+

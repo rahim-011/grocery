@@ -1,28 +1,30 @@
-import { ArrowBigRight, ArrowRight, Clock, Leaf, ShieldCheck, Truck } from "lucide-react"
+import { ArrowRight, Clock, Leaf, ShieldCheck, Truck } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { ebGarmond } from "@/app/layout"
 
 export default function Hero(){
     return(
-        <div className="flex flex-col gap-8 w-full">
-            <div className="relative w-full rounded-3xl overflow-hidden min-h-[480px] flex items-center lg:p-10 md:p-7 p-5">
+        <div className="flex flex-col gap-6 w-full md:gap-8">
+            <div className="relative w-full overflow-hidden rounded-[28px] min-h-[420px] sm:min-h-[500px] lg:min-h-[560px] flex items-center p-5 sm:p-7 lg:p-10">
                 <Image alt="hero-img" fill src='/vegetables.webp' priority className="object-cover z-0"/>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0f2414]/90 via-[#0f2414]/75 to-transparent z-10" />
-                <div className="flex flex-col gap-6 p-8 md:w-2/3 relative  z-20">
-                    <div className="text-orange-300 bg-orange-300/10 px-2.5 py-1 rounded-3xl flex items-center gap-2 self-start">
+                <div className="relative z-20 flex w-full max-w-[650px] flex-col gap-5 sm:gap-6">
+                    <div className="flex items-center gap-2 self-start rounded-3xl bg-orange-300/10 px-2.5 py-1 text-orange-300">
                         <Leaf size={14}/>
-                        <span className="text-[0.7rem] font-bold">Farm-Fresh & Organic</span>
+                        <span className="text-[0.68rem] font-bold sm:text-[0.75rem]">Farm-Fresh & Organic</span>
                     </div>
-                    <h1 className={`text-white md:text-5xl text-4xl leading-10 md:leading-14 ${ebGarmond.className}`}>Nourish your home with <span className="text-orange-300">Earth's finest</span></h1>
-                    <p className="text-white/70 max-w-[450px] text-[0.8rem] md:text-[0.9rem] leading-6">Fresh, organic groceries delivered from local farms to your doorstep. Quality you can taste, convenience you deserve.</p>
-                    <div className="flex items-center gap-2 text-white text-[0.8rem] md:text-[0.9rem] whitespace-nowrap ">
-                        <Link href='/products' className="flex items-center gap-1 bg-orange-400 rounded-3xl py-3 px-5 transition-all ease-in duration-150 hover:bg-orange-400/70">Shop Now <ArrowRight size={15}/></Link>
-                        <Link href='/products' className="border border-white/15 py-3 px-5 rounded-3xl bg-white/10 hover:bg-white/20 transition-all ease-in duration-150">Browse Categories</Link>
+                    <h1 className={`max-w-[340px] text-4xl leading-[1.05] text-white sm:max-w-[420px] sm:text-5xl lg:max-w-[580px] lg:text-[5rem] ${ebGarmond.className}`}>
+                        Nourish your home with <span className="text-orange-300">Earth&apos;s finest</span>
+                    </h1>
+                    <p className="max-w-[420px] text-[0.78rem] leading-6 text-white/70 sm:text-[0.85rem] lg:text-[0.95rem]">Fresh, organic groceries delivered from local farms to your doorstep. Quality you can taste, convenience you deserve.</p>
+                    <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+                        <Link href='/products' className="flex items-center justify-center gap-1 rounded-3xl bg-orange-400 px-5 py-3 text-[0.8rem] font-medium text-white transition-all duration-150 hover:bg-orange-400/70 sm:text-[0.9rem]">Shop Now <ArrowRight size={15}/></Link>
+                        <Link href='/products' className="flex items-center justify-center rounded-3xl border border-white/15 bg-white/10 px-5 py-3 text-[0.8rem] font-medium text-white transition-all duration-150 hover:bg-white/20 sm:text-[0.9rem]">Browse Categories</Link>
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 text-veg-green p-5 border border-black/20 rounded-2xl gap-3">
+            <div className="grid grid-cols-1 gap-3 rounded-2xl border border-black/20 bg-white p-4 text-veg-green sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex items-center gap-4" >
                     <div><Truck size={18}/></div>
                     <div className="flex flex-col">

@@ -40,19 +40,19 @@ export default function Categories(){
     }
 ]
     return(
-        <div className="flex flex-col gap-6 my-10 p-4">
+        <div className="my-8 flex flex-col gap-5 p-4 md:my-10">
             <div className="flex flex-col gap-2">
-                <h2 className="text-veg-green text-[1.3rem] font-bold">Browse Categories</h2>
-                <span className="text-black/50 text-[0.75rem]">Find exactly what you need using</span>
+                <h2 className="text-[1.3rem] font-bold text-veg-green">Browse Categories</h2>
+                <span className="text-[0.75rem] text-black/50">Find exactly what you need using</span>
             </div>
-            <div className="relative overflow-hidden w-full p-3">
-                <div className="flex items-center gap-5 w-full scrollbar-none animate-scroll ">
+            <div className="relative w-full overflow-hidden">
+                <div className="flex w-full items-center gap-4 animate-scroll md:gap-5">
                     {[...categories,...categories,...categories].map((categorie,index)=>(
-                        <div className="flex flex-col items-center gap-2.5 flex-shrink-0" key={index}>
-                            <div className="p-3 rounded-3xl bg-emerald-50/40 hover:scale-105 cursor-pointer transition-transform duration-200 w-24 h-24 flex">
+                        <div className="flex shrink-0 flex-col items-center gap-2.5" key={index}>
+                            <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50/40 p-3 transition-transform duration-200 hover:scale-105 sm:h-24 sm:w-24">
                                 <Image src={categorie.imageSrc} width='75' height='75' alt={categorie.title} className="object-contain"/>
                             </div>
-                            <span className="text-[0.65rem] text-black/70">{categorie.title}</span>
+                            <span className="max-w-[72px] text-center text-[0.62rem] text-black/70 sm:text-[0.65rem]">{categorie.title}</span>
                         </div>
                     ))}
                 </div>

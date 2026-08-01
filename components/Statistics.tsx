@@ -1,32 +1,38 @@
+import { getStatistics } from "@/lib/dashboard"
 import { ShoppingBag,Users,Package,TriangleAlert } from "lucide-react"
 
 
 
-export default function Statistics(){
+export default async function Statistics(){
     interface StatisticsInfos {
         title:string,
         value: number,
         icon:React.ReactNode
     }
+
+    const {success,totalUsers,totalProducts,totalOrders,outOfStock} =  await getStatistics() || {};
+    if (!success){
+        return
+    }
     const statisticInfos:StatisticsInfos[] = [
         {
         title: 'Total Orders',
-        value: 427,
+        value: totalOrders || 0,
         icon:<ShoppingBag size={22}/>
         },
         {
         title: 'Total Users',
-        value: 863,
+        value: totalUsers || 0,
         icon:<Users size={22}/>
         },
         {
         title: 'Total Products',
-        value: 427,
+        value: totalProducts || 0,
         icon:<Package size={22}/>
         },
         {
         title: 'Out of Stock',
-        value: 427,
+        value: outOfStock || 0,
         icon:<TriangleAlert size={22}/>
         }
 ] 

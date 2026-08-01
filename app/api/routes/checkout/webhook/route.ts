@@ -15,20 +15,51 @@ export async function POST(request:Request){
         }
 
         const event:ChargilyWebhookEvent = JSON.parse(rawBody);
-        const orderId = event.data.metadata;
+        const orderId = event.data.metadata?.orderId;
         if (!orderId){
             return NextResponse.json({error:'orderId is not found in the metadata!'},{status:400})
         }
         switch (event.type) {
             case 'checkout.paid' : {
-                await prisma.order.update({
-                    where:{
-                        id:orderId
-                    },
-                    data:{
-                        status:'confirmed'
+                await prisma.$transaction(async (tx) =>{
+                    const existingOrder = await tx.order.findUnique({
+                        where:{ id: orderId }
+                    });
+                    if (!existingOrder){
+                        throw new Error('Order not found')
+                    }
+                    const orderItems = await tx.orderItem.findMany({
+                        where: { orderId: orderId },
+                        select: {
+                            quantity: true,
+                            productId: true
+                        }
+                    });
+
+                    await tx.order.update({
+                        where:{
+                            id: orderId
+                        },
+                        data:{
+                            status: 'confirmed'
+                        }
+                    });
+
+                    for (const item of orderItems){
+                        await tx.products.update({
+                            where:{
+                                id: item.productId
+                            },
+                            data:{
+                                stock:{
+                                    decrement:item.quantity
+                                }
+                            }
+                        })
                     }
                 })
+                
+
                 break;
             }
             case 'checkout.failed':{

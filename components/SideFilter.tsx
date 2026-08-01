@@ -14,13 +14,15 @@ export default function SideFilter(){
                 <FilterBy/>
             </div>
             {isFilterOpen && 
-            <div className="flex flex-col lg:hidden fixed bottom-0 left-0 z-50 pt-5 rounded-t-2xl bg-white w-full h-[80%] block animate-in slide-in-from-bottom duration-300">
-                <div className="flex justify-between items-center text-veg-green px-4">
-                    <h2 className="font-bold text-[1.1rem] ">Filters</h2>
-                    <X className="cursor-pointer hover:scale-105 transition-all" size={18} onClick={()=>closeFilter()}/>
+            <div className="fixed bottom-0 left-0 z-50 flex h-[80vh] w-full flex-col rounded-t-2xl bg-white pt-5 lg:hidden animate-in slide-in-from-bottom duration-300">
+                <div className="flex items-center justify-between px-4 text-veg-green">
+                    <h2 className="text-[1.1rem] font-bold">Filters</h2>
+                    <X className="cursor-pointer transition-all hover:scale-105" size={18} onClick={()=>closeFilter()}/>
                 </div>
-                <hr className="mt-5 text-veg-green/30 mb-4"></hr>
-                <FilterBy/>
+                <hr className="mb-4 mt-5 border-veg-green/30"></hr>
+                <div className="flex-1 overflow-y-auto px-4 pb-6">
+                    <FilterBy/>
+                </div>
             </div>}
         </>
     )

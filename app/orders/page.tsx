@@ -5,6 +5,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import OrderStates from "@/components/SwitchOrderStates";
 import { getUserOrders } from "@/lib/orders";
+import { Suspense } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 
 export default async function Orders(){
@@ -20,7 +22,10 @@ export default async function Orders(){
                 <h1 className="text-veg-green font-semibold text-2xl">My Orders</h1>
                 <OrderStates/>
             </div>
-            {<ShowOrders userOrders={userOrders}/>}
+            {<Suspense fallback={<LoadingSpinner/>}>
+                <ShowOrders userOrders={userOrders}/>
+            </Suspense>
+            }
         </div>
     )
 }

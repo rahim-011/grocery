@@ -18,12 +18,12 @@ export default function Products(){
 
     
     return(
-        <div className="flex flex-col md:gap-3 mt-2">
-            <h2 className="flex place-items-center gap-2 text-veg-green text-[0.85rem]"><Link href='/'><Home size={16} className="opacity-55 hover:opacity-85 transition-all"/></Link><span className="text-[0.6rem]">/</span> All Products</h2>
-            <div className="w-full flex gap-5 mt-3">
+        <div className="mt-2 flex flex-col md:gap-3">
+            <h2 className="flex items-center gap-2 text-[0.85rem] text-veg-green"><Link href='/'><Home size={16} className="opacity-55 transition-all hover:opacity-85"/></Link><span className="text-[0.6rem]">/</span> All Products</h2>
+            <div className="mt-3 flex w-full flex-col gap-5 lg:flex-row">
                 <SideFilter/>
                 <Suspense fallback={<LoadingSpinner />}>
-                    <div className="flex flex-col gap-5 pt-8 w-full">
+                    <div className="flex w-full flex-col gap-5 pt-0 lg:pt-8">
                         <FoundedProducts/>
                         <ShowProducts limit={null} category={null} mainProductId=""/>
                     </div>

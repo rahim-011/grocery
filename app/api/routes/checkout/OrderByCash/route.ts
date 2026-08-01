@@ -39,18 +39,39 @@ export async function POST(request:Request){
         const totalItems = items.reduce((acc: number, item:any)=>{
             return acc + Number(item.quantity)
         },0)
-        await prisma.order.create({
-            data:{
-                totalItems,
-                userId,
-                item:{
-                    create: items
-                },
-                totalAmount,
-                addressId
-            },
-            include:{item:true}
+        const newOrder  = await prisma.$transaction(async (tx) =>{
+            const order = await tx.order.create({
+                data:{
+                    totalAmount,
+                    totalItems,
+                    userId,
+                    item:{
+                        create: items
+                    },
+                    addressId
+                }
+            })
+
+            for (const cartItem of items) {
+                await tx.products.update({
+                    where:{
+                        id:cartItem.productId
+                    },
+                    data:{
+                        stock:{
+                            decrement: cartItem.quantity
+                        }
+                    }
+                })
+            }
+            return order
         })
+
+
+    
+
+        
+        
 
         return NextResponse.json({message:'Your order has been placed successfully'},{status:201})
     }

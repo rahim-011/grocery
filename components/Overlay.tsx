@@ -17,7 +17,7 @@ export default function Overlay({showConfirm,onCloseConfirm} : OverlayProps){
     return(
         <>
         {(isFilterOpen || isCartOpen || showConfirm) &&
-            <div className="inset-0 bg-black/30  w-full h-full fixed top-0 left-0" onClick={()=>{router.push('?');router.refresh();closeCart();closeFilter();onCloseConfirm && onCloseConfirm()}}></div> 
+            <div className="inset-0 bg-black/30  w-full h-full fixed top-0 left-0 z-35" onClick={()=>{router.push('?');router.refresh();closeCart();closeFilter();onCloseConfirm && onCloseConfirm()}}></div> 
         }
         </>
     )

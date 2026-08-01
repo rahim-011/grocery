@@ -39,7 +39,7 @@ export default function UserProfile({name,email,onShowProfile}:{name:string,emai
                 </ul>
             </div>
             <div className="p-4 flex flex-col gap-4">
-                <Link href='/admin' className="text-orange-500 hover:text-orange-600 text-[0.8rem] transition-all cursor-pointer flex items-center gap-2"><Shield size={16}/>Admin Panel</Link> 
+                <Link href='/admin' className="text-orange-500 hover:text-orange-600 text-[0.8rem] transition-all cursor-pointer flex items-center gap-2" onClick={onShowProfile}><Shield size={16}/>Admin Panel</Link> 
                 <button className="flex items-center gap-3 text-red-500 hover:text-red-700 transition-all cursor-pointer text-[0.8rem]" onClick={handleSignOut}><LogOut size={16}/>Logout</button>
             </div>
         </div>

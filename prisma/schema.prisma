@@ -40,15 +40,30 @@ model User {
   email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?
+  role          String    @default("user")
+  banned        Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
   addresses     Address[]
   orders        Order[]
+  partner       Partner[]
 
   @@map("user")
 }
+
+
+model Partner{
+  id            String    @id @default(uuid())
+  isActive      Boolean   @default(false)
+  vehicleType   String    @default("bike")
+  phone         String
+  userId      String   @unique
+  user          User      @relation(fields: [userId],references: [id], onDelete:  Cascade)
+  createdAt     DateTime  @default(now())
+}
+
 
 model Order {
   id          String      @id @default(uuid())

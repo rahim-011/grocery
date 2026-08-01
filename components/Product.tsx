@@ -62,8 +62,8 @@ export default function ShowProduct({ mainProduct }: { mainProduct: Products | n
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 rounded-2xl border border-black/10 shadow-2xs">
             <div className="flex flex-col gap-3 p-3">
                 <div className="self-start rounded-2xl bg-amber-700 font-semibold py-1 px-2 text-[0.65rem] text-white ">{discount}% OFF</div>
-                <div className="self-center justify-self-center">
-                    <Image src={mainProduct?.imageSrc || '/undefined.png'} width={300} height={300} alt={mainProduct?.title || 'product'} />
+                <div className="self-center justify-self-center w-auto h-auto">
+                    <Image src={mainProduct?.imageSrc || '/undefined.png'} width={300} height={300} alt={mainProduct?.title || 'product'} className="object-cover w-auto h-auto" loading="eager"/>
                 </div>
             </div>
             <div className="flex flex-col gap-2 self-center font-semibold">
