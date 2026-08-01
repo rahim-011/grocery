@@ -38,7 +38,7 @@ export default function SignUp() {
         const toastId = toast.loading('Creating your account...');
         setIsLoading(true)
         try{
-            const {email,password,confirmPassword,name} = values;
+            const {email,password,name} = values;
             const {error} = await signUp.email({name,email,password});
             if (error){
                 toast.dismiss(toastId);
@@ -51,7 +51,7 @@ export default function SignUp() {
             })
             router.push('/')
         }
-        catch(err){
+        catch{
             toast.error('An unexpected error occurred',{id:toastId})
         }
         finally{
@@ -60,7 +60,7 @@ export default function SignUp() {
     }
 
     return (
-        <div className="-mt-20 -mx-5 md:-mx-10 min-h-screen w-[calc(100%+2.5rem)] md:grid md:grid-cols-2">
+        <div className="min-h-screen w-full overflow-hidden md:grid md:grid-cols-2">
         <WelcomeSide />
         <div className="flex flex-col items-center w-full min-h-screen  p-5 md:p-10">
             <div className="lg:p-5 flex flex-col items-center">

@@ -53,7 +53,7 @@ export default function SignIn() {
       
       router.push('/')
     }
-    catch(err){
+    catch{
       toast.error('An unexpected error occurred',{id:toastId})
     }
     finally{
@@ -61,7 +61,7 @@ export default function SignIn() {
     }
   }
   return (
-    <div className="-mt-20 -mx-5 md:-mx-10 min-h-screen w-[calc(100%+2.5rem)]  md:grid md:grid-cols-2 flex items-center justify-center">
+    <div className="min-h-screen w-full overflow-hidden md:grid md:grid-cols-2">
       <WelcomeSide/>
       <div className="flex flex-col items-center lg:p-12 w-full">
             <div className="lg:p-5 flex flex-col items-center">
@@ -69,7 +69,7 @@ export default function SignIn() {
                 <div className="flex flex-col gap-2 items-center">
                     <span className="text-veg-green font-semibold text-[1.2rem]">Sign in to your account</span>
                     <div className="flex items-center gap-1">
-                        <span className="text-black/60 text-[0.8rem]">Don't have an account?</span>
+                        <span className="text-black/60 text-[0.8rem]">Do not have an account?</span>
                         <Link href='/sign-up' className="text-orange-500 hover:text-orange-600 transition-all text-[0.8rem] cursor-pointer font-semiboldl">Create one</Link>
                     </div>
                 </div>

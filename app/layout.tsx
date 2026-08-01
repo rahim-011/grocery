@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SideCart from "@/components/SideCart";
 import Overlay from "@/components/Overlay";
+import AppMain from "@/components/AppMain";
 import { Suspense } from "react";
 
 const poppins = Poppins({
@@ -40,9 +41,7 @@ export default function RootLayout({
             
           </header>
           
-          <main className='flex-1 px-4 pt-[110px] sm:px-6 md:px-10'>
-            {children}
-          </main>
+          <AppMain>{children}</AppMain>
 
           <footer>
             <Footer />
