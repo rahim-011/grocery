@@ -3,8 +3,7 @@ import { getOrders } from "@/lib/orders";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-
-
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard(){
     
