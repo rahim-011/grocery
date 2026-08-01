@@ -2,42 +2,47 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimiters, getIp } from "@/lib/rate-limit";
 
+export async function middleware(request: NextRequest) {
+  const ip = getIp(request);
+  const path = request.nextUrl.pathname;
 
-export async function middleware(request:NextRequest){
+  let limiter = rateLimiters.api;
+  if (path.includes("/checkout")) {
+    limiter = rateLimiters.checkout;
+  } else if (path.includes("/sign-in") || path.includes("/sign-up")) {
+    limiter = rateLimiters.auth;
+  }
 
-     const ip = getIp(request);
-    const path = request.nextUrl.pathname;
+  const { success } = await limiter.limit(ip);
 
-    let limiter = rateLimiters.api;
-    if (path.includes('/checkout')) {
-        limiter = rateLimiters.checkout;
-    } else if (path.includes('/sign-in') || path.includes('/sign-up')) {
-        limiter = rateLimiters.auth;
-    }
+  if (!success) {
+    return NextResponse.json(
+      { error: "To many requests,try again!" },
+      { status: 429 }
+    );
+  }
 
-    const { success } = await limiter.limit(ip);
+  const sessionToken =
+    request.cookies.get("better-auth.session_token") ??
+    request.cookies.get("better-auth.session_data") ??
+    request.cookies.get("better-auth.session");
 
-    if (!success) {
-        return NextResponse.json(
-            { error: 'To many requests,try again!' },
-            { status: 429 }
-        );
-    }
+  const publicCheckoutPaths = ["/checkout/success", "/checkout/failed"];
+  const protectedPaths = ["/admin", "/orders", "/addresses", "/checkout"];
 
-    const sessionToken = request.cookies.get('better-auth.session_token');
-    const publicCheckoutPaths = ['/checkout/success', '/checkout/failed'];
-    const protectedPaths = ['/admin','/orders','/addresses','/checkout'];
+  const pathname = request.nextUrl.pathname;
+  const isPublicCheckoutRedirect = publicCheckoutPaths.some(
+    (item) => pathname === item || pathname.startsWith(`${item}/`)
+  );
+  const isProtected = protectedPaths.some((item) => pathname.startsWith(item));
 
-    const pathname = request.nextUrl.pathname;
-    const isPublicCheckoutRedirect = publicCheckoutPaths.some(path => pathname === path || pathname.startsWith(`${path}/`));
-    const isProtected = protectedPaths.some(path => pathname.startsWith(path));
+  if (!sessionToken && isProtected && !isPublicCheckoutRedirect) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
 
-    if (!sessionToken && isProtected && !isPublicCheckoutRedirect){
-        return NextResponse.redirect(new URL('/sign-in', request.url));
-    }
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/orders/:path*", "/addresses/:path*", "/admin/:path*", "/checkout" , "/checkout/:path*"],
-}
+  matcher: ["/orders/:path*", "/addresses/:path*", "/admin/:path*", "/checkout", "/checkout/:path*"],
+};
