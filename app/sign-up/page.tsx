@@ -62,7 +62,7 @@ export default function SignUp() {
     return (
         <div className="min-h-screen w-full overflow-hidden md:grid md:grid-cols-2">
         <WelcomeSide />
-        <div className="flex flex-col items-center w-full min-h-screen  p-5 md:p-10">
+        <div className="flex flex-col items-center w-full min-h-screen  p-2 justify-center">
             <div className="lg:p-5 flex flex-col items-center">
             <h1 className="flex items-center gap-2 font-semibold mb-5">
                 <Image alt="logo" src="/logo.png" width={30} height={30} />
@@ -79,7 +79,7 @@ export default function SignUp() {
             </div>
             </div>
 
-            <div className="flex flex-col mt-5 w-full max-w-sm">
+            <div className="flex flex-col mt-5 w-[70%]">
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-0.5">
                 <Controller
                 name="name"

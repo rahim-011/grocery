@@ -63,7 +63,7 @@ export default function SignIn() {
   return (
     <div className="min-h-screen w-full overflow-hidden md:grid md:grid-cols-2">
       <WelcomeSide/>
-      <div className="flex flex-col items-center lg:p-12 w-full">
+      <div className="flex flex-col items-center justify-center lg:p-12 w-full min-h-screen">
             <div className="lg:p-5 flex flex-col items-center">
                 <h1 className="flex items-center gap-2 font-semibold mb-5"><Image alt='logo' src='/logo.png' width='30' height='30'></Image><span className="text-veg-green text-[1.4rem] mt-2">Instacart</span></h1>
                 <div className="flex flex-col gap-2 items-center">
@@ -74,7 +74,7 @@ export default function SignIn() {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col mt-5 w-[70%]">
+            <div className="flex flex-col mt-5 md:w-[70%] w-[80%]">
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 <Controller 
                 name="email"
