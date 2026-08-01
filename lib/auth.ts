@@ -3,7 +3,14 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
 import { admin } from "better-auth/plugins";
 
-const appUrl = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const getAppUrl = () => {
+  if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
+  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return "http://localhost:3000";
+};
+
+const appUrl = getAppUrl();
 const trustedOrigins = Array.from(
   new Set(
     [
@@ -12,6 +19,7 @@ const trustedOrigins = Array.from(
       "http://192.168.1.38:3000",
       process.env.BETTER_AUTH_URL,
       process.env.NEXT_PUBLIC_APP_URL,
+      process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
       "https://grocery-red-ten.vercel.app",
     ].filter(Boolean) as string[]
   )
