@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import {admin} from 'better-auth/plugins'
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL ?? "http://localhost:3000",
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -13,6 +14,7 @@ export const auth = betterAuth({
     trustedOrigins: [
     "http://localhost:3000",
     "http://192.168.1.38:3000",
+    "https://grocery-red-ten.vercel.app"
   ],
   plugins:[
     admin()
