@@ -1,8 +1,29 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+
+import { NextRequest, NextResponse } from "next/server";
+import { rateLimiters, getIp } from "@/lib/rate-limit";
 
 
 export async function middleware(request:NextRequest){
+
+     const ip = getIp(request);
+    const path = request.nextUrl.pathname;
+
+    let limiter = rateLimiters.api;
+    if (path.includes('/checkout')) {
+        limiter = rateLimiters.checkout;
+    } else if (path.includes('/sign-in') || path.includes('/sign-up')) {
+        limiter = rateLimiters.auth;
+    }
+
+    const { success } = await limiter.limit(ip);
+
+    if (!success) {
+        return NextResponse.json(
+            { error: 'To many requests,try again!' },
+            { status: 429 }
+        );
+    }
+
     const sessionToken = request.cookies.get('better-auth.session_token');
     const publicCheckoutPaths = ['/checkout/success', '/checkout/failed'];
     const protectedPaths = ['/admin','/orders','/addresses','/checkout'];
