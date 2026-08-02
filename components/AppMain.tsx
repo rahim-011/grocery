@@ -9,7 +9,7 @@ export default function AppMain({ children }: { children: ReactNode }) {
 
   return (
     <main
-      className={isAuthPage ? 'flex-1 px-0' : 'flex-1 px-4 pt-[110px] sm:px-6 md:px-10'}
+      className={isAuthPage ? 'flex-1 px-0' : 'flex-1 px-3 pt-[128px] sm:px-6 sm:pt-[110px] md:px-10'}
     >
       {children}
     </main>

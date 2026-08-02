@@ -103,7 +103,7 @@ export default function ShowProduct({ mainProduct }: { mainProduct: Products | n
                     </div>
 
                     <button 
-                        className={`text-[0.8rem] py-3 rounded-[10px] cursor-pointer flex items-center flex-1 justify-center px-2 gap-3 transition-all ${addToCartClass}`} 
+                        className={`text-[0.7rem] md:text-[0.8rem] py-3 rounded-[10px] cursor-pointer flex items-center flex-1 justify-center px-2 gap-3 transition-all ${addToCartClass}`} 
                         onClick={handleCart} disabled={isExist}
                     >
                         <ShoppingCart size={15} /> {isExist ? "Added to Cart" : "Add to Cart"}

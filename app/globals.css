@@ -32,8 +32,56 @@
 }
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-white;
+    margin: 0;
+    min-width: 0;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  iframe,
+  object {
+    display: block;
+    max-width: 100%;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    min-width: 0;
+  }
+
+  @media (max-width: 359px) {
+    html,
+    body {
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    [data-sonner-toaster] [data-sonner-toast] {
+      width: min(100vw - 16px, 320px) !important;
+      max-width: calc(100vw - 16px) !important;
+      min-width: 0 !important;
+    }
   }
 }
 
@@ -51,4 +99,18 @@
 }
 .animate-scroll:hover{
   animation-play-state: paused;
+}
+
+.category-scroll-track {
+  animation: none;
+}
+
+@media (min-width: 768px) {
+  .category-scroll-track {
+    animation: scroll 8s linear infinite;
+  }
+
+  .category-scroll-track:hover {
+    animation-play-state: paused;
+  }
 }

@@ -5,7 +5,7 @@ import { ebGarmond } from "@/app/layout"
 
 export default function Hero(){
     return(
-        <div className="flex flex-col gap-6 w-full md:gap-8">
+        <div className="flex flex-col gap-6 w-full md:gap-8 mt-5 md:mt-0">
             <div className="relative w-full overflow-hidden rounded-[28px] min-h-[420px] sm:min-h-[500px] lg:min-h-[560px] flex items-center p-5 sm:p-7 lg:p-10">
                 <Image alt="hero-img" fill src='/vegetables.webp' priority className="object-cover z-0"/>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0f2414]/90 via-[#0f2414]/75 to-transparent z-10" />

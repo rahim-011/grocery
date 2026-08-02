@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en" className={`${poppins.className} h-full antialiased`}>
-        <body className="min-h-full flex flex-col">
+        <body className="min-h-full flex flex-col w-full">
           <Overlay />
           <SideCart />
           <header>
@@ -52,7 +52,7 @@ export default function RootLayout({
             closeButton
             style={{ zIndex: 99999 }}
             toastOptions={{
-              className: "!rounded-2xl !p-4 !shadow-2xl !border !bg-white/95 !backdrop-blur-md font-sans !min-w-[360px]",
+              className: "!min-w-0 !w-[calc(100vw-1rem)] !max-w-[calc(100vw-1rem)] !rounded-2xl !p-4 !shadow-2xl !border !bg-white/95 !backdrop-blur-md font-sans sm:!w-auto sm:!max-w-none sm:!min-w-[360px]",
               classNames: {
                 success: "!border-emerald-500/30 !text-emerald-900",
                 error: "!border-rose-500/30 !text-rose-900",

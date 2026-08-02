@@ -45,15 +45,17 @@ export default function Categories(){
                 <span className="text-[0.75rem] text-black/50">Find exactly what you need using</span>
             </div>
             <div className="relative w-full overflow-hidden">
-                <div className="flex w-full items-center gap-4 animate-scroll md:gap-5">
-                    {[...categories,...categories,...categories].map((categorie,index)=>(
-                        <div className="flex shrink-0 flex-col items-center gap-2.5" key={index}>
-                            <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50/40 p-3 transition-transform duration-200 hover:scale-105 sm:h-24 sm:w-24">
-                                <Image src={categorie.imageSrc} width='75' height='75' alt={categorie.title} className="object-contain"/>
+                <div className="flex items-center gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch] md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden">
+                    <div className="md:animate-scroll flex min-w-max items-center gap-4 md:gap-5">
+                        {[...categories,...categories,...categories].map((categorie,index)=>(
+                            <div className="flex shrink-0 flex-col items-center gap-2.5" key={index}>
+                                <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50/40 p-3 transition-transform duration-200 hover:scale-105 sm:h-24 sm:w-24">
+                                    <Image src={categorie.imageSrc} width='75' height='75' alt={categorie.title} className="object-contain"/>
+                                </div>
+                                <span className="max-w-[72px] text-center text-[0.62rem] text-black/70 sm:text-[0.65rem]">{categorie.title}</span>
                             </div>
-                            <span className="max-w-[72px] text-center text-[0.62rem] text-black/70 sm:text-[0.65rem]">{categorie.title}</span>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

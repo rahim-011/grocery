@@ -15,8 +15,8 @@ export default async function Product({params}:{params:Promise<{id:string}>}){
     const id = (await params).id
     const mainProduct = await getProductById(id);
     return(
-        <div className="md:p-7 lg:p-10 p-3 flex flex-col gap-5">
-            <div className="flex place-items-center-safe gap-2 text-black/55 text-[0.8rem]">
+        <div className="md:p-7 lg:p-10 p-1 flex flex-col gap-5">
+            <div className="flex place-items-center-safe gap-2 text-black/55 text-[0.65rem] md:text-[0.8rem]">
                 <HomeIcon  size={16} className="hover:text-black/75 transition-all cursor-pointer mb-1"/> <span className="text-[0.6rem]">/</span>
                 <Link href='/products' className="hover:text-black/75 transition-all cursor-pointer">Products</Link> 
                 <span className="text-[0.6rem]">/</span>

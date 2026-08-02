@@ -11,7 +11,7 @@ export default async function AddressModel({operation,addressId}:{operation:'add
     
     return(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="fixed inset-0 z-46 w-screen overflow-y-auto flex items-center justify-center p-4 sm:p-0">
+            <div className="fixed inset-0 z-46 flex w-full items-center justify-center overflow-y-auto p-4 sm:p-0">
                 {operation !== 'delete-address' ?(<AddressForm operation={operation} editedAddress={editedAddress}/>) :  
                     <Confirm type="address" addressId={addressId}/>}
             </div>

@@ -36,7 +36,7 @@ export default function FoundedProducts(){
         }
     }
     return(
-         <div className="flex justify-between  w-full">
+         <div className="flex flex-col gap-3 md:justify-between  w-full">
             <div className="flex flex-col">
                 <h1 className="text-veg-green font-bold text-2xl">{categoryQuery ||'All Products'}</h1>
                 <span className="text-black/70 text-[0.8rem]">{foundedProducts} products found</span>
