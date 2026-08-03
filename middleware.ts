@@ -1,5 +1,5 @@
-
 import { NextRequest, NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 import { rateLimiters, getIp } from "@/lib/rate-limit";
 
 export async function middleware(request: NextRequest) {
@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   let limiter = rateLimiters.api;
-  if (path.includes("/checkout")) {
+  if (path.startsWith("/api/routes/checkout")) {
     limiter = rateLimiters.checkout;
   } else if (path.includes("/sign-in") || path.includes("/sign-up")) {
     limiter = rateLimiters.auth;
@@ -17,16 +17,12 @@ export async function middleware(request: NextRequest) {
 
   if (!success) {
     return NextResponse.json(
-      { error: "To many requests,try again!" },
+      { error: "Too many requests, try again!" },
       { status: 429 }
     );
   }
 
-    const cookieNames = request.cookies.getAll().map(c => c.name);
-    const sessionToken = cookieNames.find(name => 
-        name.includes('better-auth.session_token') || 
-        name.includes('better-auth.session')
-    );
+  const sessionCookie = getSessionCookie(request);
 
   const publicCheckoutPaths = ["/checkout/success", "/checkout/failed"];
   const protectedPaths = ["/admin", "/orders", "/addresses", "/checkout"];
@@ -37,7 +33,7 @@ export async function middleware(request: NextRequest) {
   );
   const isProtected = protectedPaths.some((item) => pathname.startsWith(item));
 
-  if (!sessionToken && isProtected && !isPublicCheckoutRedirect) {
+  if (!sessionCookie && isProtected && !isPublicCheckoutRedirect) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 

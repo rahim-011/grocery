@@ -11,12 +11,12 @@ export const rateLimiters = {
     }),
     checkout: new Ratelimit({
         redis,
-        limiter: Ratelimit.slidingWindow(3, "60 s"),
+        limiter: Ratelimit.slidingWindow(5, "60 s"),
         prefix: "ratelimit:checkout",
     }),
     api: new Ratelimit({
         redis,
-        limiter: Ratelimit.slidingWindow(20, "10 s"),
+        limiter: Ratelimit.slidingWindow(30, "10 s"),
         prefix: "ratelimit:api",
     }),
 };
